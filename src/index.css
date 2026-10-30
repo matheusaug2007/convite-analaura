@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --linho: #faf6f0;
+  --terracota: #d39878;
+  --nude: #b37b5c;
+  --rosa: #e8a598;
+  --lavanda: #a599b5;
+  --salvia: #8ea08a;
+  --tinta: #3e3835;
+  --legenda: #7b736e;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: var(--tinta);
+  background-color: var(--linho);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(232, 165, 152, 0.14), transparent 40%),
+    radial-gradient(circle at 85% 40%, rgba(165, 153, 181, 0.14), transparent 40%),
+    radial-gradient(circle at 15% 90%, rgba(142, 160, 138, 0.14), transparent 40%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .glass {
+    @apply rounded-3xl border border-white/70 bg-white/85 shadow-[0_8px_32px_rgba(179,123,92,0.15)] backdrop-blur-md;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-terracota px-6 py-3 text-sm font-semibold text-white shadow-md transition active:scale-95 hover:bg-nude disabled:opacity-60;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-terracota px-6 py-3 text-sm font-semibold text-nude transition active:scale-95 hover:bg-terracota/10;
+  }
+  .input {
+    @apply w-full rounded-2xl border border-terracota/30 bg-white/90 px-4 py-3 text-sm text-tinta outline-none transition placeholder:text-legenda/60 focus:border-terracota focus:ring-2 focus:ring-terracota/30;
+  }
+  .section-title {
+    @apply text-center font-display text-3xl font-bold text-terracota;
+  }
+}
+
