@@ -8,17 +8,15 @@ export default function Footer() {
     const url = `https://wa.me/?text=${encodeURIComponent(`${SHARE_TEXT} ${window.location.href}`)}`;
     window.open(url, '_blank', 'noopener');
   };
+
   return (
-    <footer className="relative z-10 px-6 pb-16 pt-8 text-center">
-      <p className="mx-auto max-w-xs font-display text-xl italic text-nude">
-        “Cada flor desse jardim representa um carinho que recebi de vocês. Obrigada por fazerem parte da minha história.”
-      </p>
-      <p className="mt-3 text-sm font-semibold text-terracota">— Ana Laura</p>
-      <button onClick={share} className="btn-primary mt-6">
-        <Share2 size={18} /> Compartilhar no WhatsApp
+    <footer className="relative z-10 px-6 pb-12 pt-4 text-center">
+      <button onClick={share} className="btn-primary">
+        <Share2 size={16} /> Compartilhar no WhatsApp
       </button>
-      <p className="mt-8 text-[11px] font-light text-legenda">Ana Laura Martins • 15 Anos • 2026</p>
+      <p className="mt-6 text-[11px] font-light text-legenda">
+        Ana Laura Martins • 15 Anos • 26 de Dezembro de 2026
+      </p>
     </footer>
   );
 }
-

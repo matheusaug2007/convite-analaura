@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>🎨 Sally (BMad UX) • Protótipo Rolagem + Lista de Presentes PIX & Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-color: #f7efe4;
+        --primary-color: #c88a6b;
+        --nude: #b37b5c;
+        --rosa: #e8a598;
+        --lavanda: #a599b5;
+        --salvia: #8ea08a;
+        --tinta: #3e3835;
+        --legenda: #7b736e;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        background: #efe6d8;
+        color: var(--tinta);
+        min-height: 100dvh;
+      }
+
+      /* Barra superior do laboratório UX da Sally */
+      .ux-switcher {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(62, 56, 53, 0.94);
+        backdrop-filter: blur(12px);
+        color: #fff;
+        padding: 10px 14px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .ux-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .ux-brand span.badge {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 99px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+      .ux-tabs {
+        display: flex;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 3px;
+        border-radius: 99px;
+      }
+      .ux-tab {
+        border: 0;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 11px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 99px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .ux-tab.active {
+        background: #fff;
+        color: var(--tinta);
+      }
+
+      .stage {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+        padding: 20px 12px 48px;
+        flex-wrap: wrap;
+      }
+      .proto-col {
+        width: 100%;
+        max-width: 420px;
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .proto-col.admin-col {
+        max-width: 540px;
+      }
+      .proto-col.visible {
+        display: flex;
+      }
+      .proto-rationale {
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(200, 138, 107, 0.25);
+        border-radius: 20px;
+        padding: 14px 16px;
+        font-size: 12px;
+        line-height: 1.55;
+        color: var(--tinta);
+      }
+      .proto-rationale strong {
+        color: var(--nude);
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      /* Moldura Smartphone */
+      .phone-frame {
+        position: relative;
+        width: 100%;
+        height: 780px;
+        border-radius: 38px;
+        border: 8px solid #fff;
+        box-shadow: 0 20px 50px rgba(62, 56, 53, 0.18);
+        overflow: hidden;
+        background-color: var(--bg-color);
+      }
+      .floral-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url('/assets/fundo-floral.jpg');
+        background-size: 100% 100%;
+        background-position: center;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .p1-scroll {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        padding-bottom: 96px;
+      }
+      .p1-hero {
+        min-height: 640px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 36px 32px 20px;
+        text-align: center;
+      }
+      .p1-num {
+        font-size: 108px;
+        font-weight: 600;
+        line-height: 0.92;
+        color: var(--primary-color);
+        letter-spacing: -4px;
+      }
+      .p1-name {
+        margin-top: 8px;
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        color: var(--primary-color);
+      }
+      .p1-date-box {
+        margin-top: 22px;
+        width: 100%;
+        max-width: 270px;
+        color: var(--primary-color);
+      }
+      .p1-date-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 6px 0;
+      }
+      .p1-date-side {
+        flex: 1;
+        border-top: 1px solid rgba(200, 138, 107, 0.65);
+        border-bottom: 1px solid rgba(200, 138, 107, 0.65);
+        padding: 7px 0;
+        font-size: 10px;
+        letter-spacing: 0.26em;
+      }
+      .p1-date-day {
+        font-size: 38px;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .p1-venue {
+        margin-top: 18px;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.32em;
+        color: var(--primary-color);
+      }
+      .p1-card {
+        margin: 16px 26px;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.85);
+        border-radius: 24px;
+        padding: 18px 16px;
+        box-shadow: 0 8px 26px rgba(179, 123, 92, 0.12);
+      }
+      .p1-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--nude);
+        text-align: center;
+      }
+      .p1-sub {
+        font-size: 11px;
+        color: var(--legenda);
+        text-align: center;
+        margin-top: 2px;
+      }
+
+      /* Grid de Presentes no Convite */
+      .gift-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .gift-item {
+        background: #fff;
+        border: 1px solid rgba(200, 138, 107, 0.22);
+        border-radius: 18px;
+        padding: 12px 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: 0.2s;
+      }
+      .gift-icon {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 8px;
+        border-radius: 14px;
+        background: #fbf3ec;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .gift-name {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--tinta);
+        line-height: 1.3;
+      }
+      .gift-price {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin: 6px 0 8px;
+      }
+      .gift-btn {
+        background: var(--primary-color);
+        color: #fff;
+        border: 0;
+        border-radius: 99px;
+        padding: 7px 10px;
+        font-size: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      /* Modal PIX no Smartphone */
+      .pix-modal {
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        background: rgba(62, 56, 53, 0.55);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .pix-modal.open {
+        display: flex;
+      }
+      .pix-sheet {
+        width: 100%;
+        background: #faf6f0;
+        border-radius: 28px 28px 0 0;
+        padding: 20px 20px 26px;
+        box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.18);
+        animation: slideUp 0.25s ease-out;
+      }
+      @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+      }
+      .qr-box {
+        width: 128px;
+        height: 128px;
+        margin: 10px auto;
+        background: #fff;
+        border: 2px dashed rgba(200, 138, 107, 0.45);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        color: var(--legenda);
+        text-align: center;
+        padding: 10px;
+      }
+      .pix-copy-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        background: #fff;
+        border: 1px solid rgba(200, 138, 107, 0.35);
+        border-radius: 14px;
+        padding: 8px 12px;
+        font-size: 11px;
+        margin-top: 8px;
+      }
+
+      /* Dock inferior com 5 itens (incluindo Presentes) */
+      .p1-dock {
+        position: absolute;
+        bottom: 14px;
+        left: 16px;
+        right: 16px;
+        z-index: 20;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(200, 138, 107, 0.3);
+        border-radius: 99px;
+        padding: 5px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 3px;
+        box-shadow: 0 10px 30px rgba(62, 56, 53, 0.16);
+      }
+      .p1-dock a {
+        text-decoration: none;
+        color: var(--legenda);
+        font-size: 9.5px;
+        font-weight: 500;
+        padding: 8px 2px;
+        border-radius: 99px;
+        text-align: center;
+      }
+      .p1-dock a.cta {
+        background: var(--primary-color);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Painel Admin Protótipo */
+      .admin-frame {
+        background: var(--bg-color);
+        border-radius: 28px;
+        border: 6px solid #fff;
+        box-shadow: 0 20px 50px rgba(62, 56, 53, 0.16);
+        padding: 20px;
+      }
+      .admin-card {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 22px;
+        padding: 16px;
+        margin-top: 14px;
+      }
+      .btn-solid {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        background: var(--primary-color);
+        color: #fff;
+        border: 0;
+        border-radius: 99px;
+        padding: 10px 16px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+      .mini-input {
+        width: 100%;
+        border: 1px solid rgba(200, 138, 107, 0.35);
+        background: #fff;
+        border-radius: 12px;
+        padding: 9px 12px;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .admin-gift-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(200, 138, 107, 0.15);
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="ux-switcher">
+      <div class="ux-brand">
+        <span>🎨 <strong>Sally • UX Designer</strong></span>
+        <span class="badge">Protótipo Rolagem + Presentes PIX</span>
+      </div>
+      <div class="ux-tabs">
+        <button class="ux-tab active" onclick="showMode('both', this)">Ver Ambos</button>
+        <button class="ux-tab" onclick="showMode('p1', this)">📱 Convite (Visão Convidado)</button>
+        <button class="ux-tab" onclick="showMode('p2', this)">⚙️ Painel /admin (Gestão Presentes)</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <!-- VISÃO DO CONVIDADO -->
+      <section id="col-p1" class="proto-col visible">
+        <div class="proto-rationale">
+          <strong>📱 Visão do Convidado — Rolagem Suave + Lista de Presentes PIX</strong>
+          Toque em qualquer botão <em>"Presentear via PIX"</em> abaixo para testar a gaveta (bottom sheet) com QR Code, chave PIX copiável e aviso carinhoso para a Ana Laura!
+        </div>
+
+        <div class="phone-frame">
+          <div class="floral-bg"></div>
+
+          <div class="p1-scroll">
+            <div class="p1-hero" id="p1-top">
+              <div class="p1-num">15</div>
+              <div class="p1-name">ANA LAURA</div>
+              <div class="p1-date-box">
+                <div style="font-size: 11px; letter-spacing: 0.38em">DEZEMBRO</div>
+                <div class="p1-date-row">
+                  <div class="p1-date-side">SÁBADO</div>
+                  <div class="p1-date-day">26</div>
+                  <div class="p1-date-side">19 H</div>
+                </div>
+                <div style="font-size: 11px; letter-spacing: 0.38em">2026</div>
+              </div>
+              <div class="p1-venue">CRYSTAL EVENTOS</div>
+            </div>
+
+            <!-- NOVA SEÇÃO: LISTA DE PRESENTES COM PIX -->
+            <div class="p1-card" id="p1-presentes">
+              <div class="p1-card-title">Lista de Presentes</div>
+              <p class="p1-sub">Escolha um mimo para presentear a Ana Laura via PIX 🌸</p>
+
+              <div class="gift-grid">
+                <div class="gift-item">
+                  <div>
+                    <div class="gift-icon">香水</div>
+                    <div class="gift-name">Perfume Floral Importado</div>
+                  </div>
+                  <div>
+                    <div class="gift-price">R$ 180,00</div>
+                    <button class="gift-btn" onclick="openPix('Perfume Floral Importado', 'R$ 180,00')">
+                      Presentear PIX
+                    </button>
+                  </div>
+                </div>
+
+                <div class="gift-item">
+                  <div>
+                    <div class="gift-icon">💆‍♀️</div>
+                    <div class="gift-name">Dia de Spa & Salão de Beleza</div>
+                  </div>
+                  <div>
+                    <div class="gift-price">R$ 120,00</div>
+                    <button class="gift-btn" onclick="openPix('Dia de Spa & Salão', 'R$ 120,00')">
+                      Presentear PIX
+                    </button>
+                  </div>
+                </div>
+
+                <div class="gift-item">
+                  <div>
+                    <div class="gift-icon">👜</div>
+                    <div class="gift-name">Bolsa Tiracolo Festa</div>
+                  </div>
+                  <div>
+                    <div class="gift-price">R$ 150,00</div>
+                    <button class="gift-btn" onclick="openPix('Bolsa Tiracolo Festa', 'R$ 150,00')">
+                      Presentear PIX
+                    </button>
+                  </div>
+                </div>
+
+                <div class="gift-item">
+                  <div>
+                    <div class="gift-icon">✈️</div>
+                    <div class="gift-name">Cota Viagem dos Sonhos</div>
+                  </div>
+                  <div>
+                    <div class="gift-price">R$ 250,00</div>
+                    <button class="gift-btn" onclick="openPix('Cota Viagem dos Sonhos', 'R$ 250,00')">
+                      Presentear PIX
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODAL / BOTTOM SHEET PIX -->
+          <div class="pix-modal" id="pix-modal">
+            <div class="pix-sheet">
+              <div style="display: flex; justify-content: space-between; align-items: center">
+                <strong id="pix-gift-title" style="color: var(--nude); font-size: 14px">Presente</strong>
+                <button onclick="closePix()" style="border: 0; background: none; font-size: 18px; cursor: pointer">✕</button>
+              </div>
+              <p id="pix-gift-price" style="font-size: 20px; font-weight: 700; color: var(--primary-color); margin-top: 2px">
+                R$ 180,00
+              </p>
+
+              <div class="qr-box">QR Code PIX gerado automaticamente</div>
+
+              <div class="pix-copy-box">
+                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">
+                  Chave PIX: <strong>analaura15anos@pix.com</strong>
+                </span>
+                <button
+                  onclick="this.innerText='Copiado! ✓'"
+                  style="background: #e4ece1; color: #4f6b4a; border: 0; border-radius: 99px; padding: 5px 10px; font-size: 10px; font-weight: 600; cursor: pointer"
+                >
+                  Copiar Chave
+                </button>
+              </div>
+
+              <input class="mini-input" placeholder="Seu nome (para a Ana Laura agradecer)" />
+              <button class="btn-solid" onclick="closePix()">Já fiz o PIX! Avisar Ana Laura 💛</button>
+            </div>
+          </div>
+
+          <!-- DOCK COM 5 ATALHOS -->
+          <nav class="p1-dock">
+            <a href="#p1-top">Início</a>
+            <a href="#p1-presentes">Presentes</a>
+            <a href="#p1-presentes">Local</a>
+            <a href="#p1-presentes">Mural</a>
+            <a href="#p1-presentes" class="cta">Confirmar</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- VISÃO DO ADMIN -->
+      <section id="col-p2" class="proto-col admin-col visible">
+        <div class="proto-rationale">
+          <strong>⚙️ Visão do Painel `/admin` — Aba "Presentes & PIX"</strong>
+          A família configura a chave PIX uma única vez, cadastra/edita os presentes com valor e acompanha quem já enviou cada mimo!
+        </div>
+
+        <div class="admin-frame">
+          <div style="display: flex; justify-content: space-between; align-items: center">
+            <div>
+              <h2 style="font-size: 18px; font-weight: 700; color: var(--primary-color)">Painel • Ana Laura 15 anos</h2>
+              <p style="font-size: 11px; color: var(--legenda)">Aba: Presentes & PIX</p>
+            </div>
+            <span style="background: #e4ece1; color: #4f6b4a; padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 600">
+              R$ 650 recebidos (4 mimos)
+            </span>
+          </div>
+
+          <div class="admin-card">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--nude)">1. Configuração da Chave PIX</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px">
+              <input class="mini-input" value="44999999999" placeholder="Chave PIX (CPF, Celular, E-mail...)" />
+              <input class="mini-input" value="Ana Laura Martins" placeholder="Nome do Titular" />
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--nude)">2. Adicionar Novo Presente</h3>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 8px">
+              <input class="mini-input" placeholder="Nome do presente (ex: Perfume Importado)" />
+              <input class="mini-input" placeholder="Valor (R$ 150)" />
+            </div>
+            <button class="btn-solid">+ Adicionar à Lista de Presentes</button>
+          </div>
+
+          <div class="admin-card">
+            <h3 style="font-size: 14px; font-weight: 600; color: var(--nude)">3. Presentes Cadastrados (4)</h3>
+            <div class="admin-gift-row">
+              <span>🌸 <strong>Perfume Floral Importado</strong> — R$ 180,00</span>
+              <span style="color: var(--legenda)">Editar • Excluir</span>
+            </div>
+            <div class="admin-gift-row">
+              <span>💆‍♀️ <strong>Dia de Spa & Salão de Beleza</strong> — R$ 120,00</span>
+              <span style="color: var(--legenda)">Editar • Excluir</span>
+            </div>
+            <div class="admin-gift-row">
+              <span>👜 <strong>Bolsa Tiracolo Festa</strong> — R$ 150,00</span>
+              <span style="color: var(--legenda)">Editar • Excluir</span>
+            </div>
+            <div class="admin-gift-row" style="border: 0">
+              <span>✈️ <strong>Cota Viagem dos Sonhos</strong> — R$ 250,00</span>
+              <span style="color: var(--legenda)">Editar • Excluir</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function openPix(title, price) {
+        document.getElementById('pix-gift-title').innerText = title;
+        document.getElementById('pix-gift-price').innerText = price;
+        document.getElementById('pix-modal').classList.add('open');
+      }
+      function closePix() {
+        document.getElementById('pix-modal').classList.remove('open');
+      }
+      function showMode(mode, btn) {
+        document.querySelectorAll('.ux-tab').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('col-p1').classList.toggle('visible', mode === 'both' || mode === 'p1');
+        document.getElementById('col-p2').classList.toggle('visible', mode === 'both' || mode === 'p2');
+      }
+    </script>
+  </body>
+</html>

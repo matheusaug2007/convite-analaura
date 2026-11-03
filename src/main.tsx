@@ -2,6 +2,9 @@ import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
+import { initTheme } from './lib/theme';
+
+initTheme();
 
 const AdminPage = lazy(() => import('./admin/AdminPage'));
 const isAdmin = window.location.pathname.replace(/\/+$/, '') === '/admin';

@@ -7,7 +7,7 @@ const EMBED = `https://www.google.com/maps?q=${encodeURIComponent(QUERY)}&output
 
 export default function LocationSection() {
   return (
-    <section className="relative z-10 px-6 py-16">
+    <section id="local" className="relative z-10 px-6 py-16">
       <h2 className="section-title">Local da festa</h2>
       <div className="glass mx-auto mt-8 max-w-md p-5 text-center">
         <MapPin className="mx-auto text-terracota" size={32} />

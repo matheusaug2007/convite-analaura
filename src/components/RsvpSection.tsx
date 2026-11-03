@@ -87,8 +87,9 @@ export default function RsvpSection() {
                     type="button"
                     key={s}
                     onClick={() => setStatus(s)}
+                    style={status === s ? { backgroundColor: 'var(--button-color)', borderColor: 'var(--button-color)' } : undefined}
                     className={`rounded-full border px-4 py-3 text-sm font-semibold transition ${
-                      status === s ? 'border-terracota bg-terracota text-white' : 'border-terracota/40 text-nude'
+                      status === s ? 'text-white' : 'border-terracota/40 text-nude'
                     }`}
                   >
                     {s === 'confirmed' ? 'Sim, vou!' : 'Não poderei'}

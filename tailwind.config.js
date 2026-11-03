@@ -4,14 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        linho: '#FAF6F0',
-        terracota: '#D39878',
+        linho: 'var(--bg-color)',
+        terracota: 'var(--primary-color)',
+        botao: 'var(--button-color)',
         nude: '#B37B5C',
         rosa: '#E8A598',
         lavanda: '#A599B5',
         salvia: '#8EA08A',
         tinta: '#3E3835',
-        legenda: '#7B736E',
+        legenda: 'var(--text-secondary)',
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],

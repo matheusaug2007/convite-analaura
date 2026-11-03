@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --linho: #faf6f0;
-  --terracota: #d39878;
+  --bg-color: #f7efe4;
+  --primary-color: #c88a6b;
+  --button-color: #c88a6b;
+  --text-secondary: #7b736e;
+  --linho: var(--bg-color);
+  --terracota: var(--primary-color);
   --nude: #b37b5c;
   --rosa: #e8a598;
   --lavanda: #a599b5;
   --salvia: #8ea08a;
   --tinta: #3e3835;
-  --legenda: #7b736e;
+  --legenda: var(--text-secondary);
 }
 
 html {
@@ -22,7 +26,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
   color: var(--tinta);
-  background-color: var(--linho);
+  background-color: var(--bg-color);
   background-image:
     radial-gradient(circle at 20% 10%, rgba(232, 165, 152, 0.14), transparent 40%),
     radial-gradient(circle at 85% 40%, rgba(165, 153, 181, 0.14), transparent 40%),
@@ -36,16 +40,21 @@ body {
     @apply rounded-3xl border border-white/70 bg-white/85 shadow-[0_8px_32px_rgba(179,123,92,0.15)] backdrop-blur-md;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-terracota px-6 py-3 text-sm font-semibold text-white shadow-md transition active:scale-95 hover:bg-nude disabled:opacity-60;
+    background-color: var(--button-color);
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-md transition active:scale-95 hover:brightness-95 disabled:opacity-60;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-terracota px-6 py-3 text-sm font-semibold text-nude transition active:scale-95 hover:bg-terracota/10;
+    border-color: var(--primary-color);
+    color: var(--nude);
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition active:scale-95 hover:bg-white/40;
   }
   .input {
-    @apply w-full rounded-2xl border border-terracota/30 bg-white/90 px-4 py-3 text-sm text-tinta outline-none transition placeholder:text-legenda/60 focus:border-terracota focus:ring-2 focus:ring-terracota/30;
+    border-color: rgba(179, 123, 92, 0.3);
+    color: var(--tinta);
+    @apply w-full rounded-2xl border bg-white/90 px-4 py-3 text-sm outline-none transition focus:border-stone-400 focus:ring-2 focus:ring-stone-200;
   }
   .section-title {
-    @apply text-center font-display text-3xl font-bold text-terracota;
+    color: var(--primary-color);
+    @apply text-center font-display text-3xl font-bold;
   }
 }
-

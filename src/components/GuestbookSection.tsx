@@ -36,7 +36,7 @@ export default function GuestbookSection() {
   };
 
   return (
-    <section className="relative z-10 px-6 py-16">
+    <section id="mural" className="relative z-10 px-6 py-16">
       <h2 className="section-title">Mural de carinho</h2>
       <p className="mt-2 text-center text-sm font-light text-legenda">Deixe uma mensagem para a Ana Laura</p>
 
