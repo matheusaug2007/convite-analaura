@@ -3,3 +3,8 @@ dist
 .env
 .env.local
 
+
+# Ferramentas de IA
+.agents/
+.aider-desk/
+skills-lock.json
