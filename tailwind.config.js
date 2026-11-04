@@ -17,6 +17,8 @@ export default {
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
         display: ['Poppins', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        script: ['"Great Vibes"', 'cursive'],
       },
       keyframes: {
         float: {

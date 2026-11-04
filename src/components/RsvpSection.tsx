@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Gift, Loader2 } from 'lucide-react';
 import { isSupabaseConfigured, submitRsvp } from '../lib/supabase';
 import type { RsvpStatus } from '../types';
+import Stepper from './Stepper';
 
 function fireConfetti() {
   const colors = ['#D39878', '#E8A598', '#A599B5', '#8EA08A', '#FFFFFF'];
@@ -66,6 +67,11 @@ export default function RsvpSection() {
                 ? 'Mal posso esperar para celebrar com você! 🌸'
                 : 'Sentiremos sua falta, mas agradecemos o carinho. 💛'}
             </p>
+            {done === 'confirmed' && (
+              <a href="#presentes" className="btn-outline mt-5 !text-xs">
+                <Gift size={14} /> Quer saber o que a Ana Laura gosta?
+              </a>
+            )}
           </div>
         ) : (
           <form onSubmit={onSubmit} className="space-y-4">
@@ -102,15 +108,7 @@ export default function RsvpSection() {
               <>
                 <div>
                   <p className="mb-2 text-sm font-medium text-tinta">Quantos acompanhantes?</p>
-                  <div className="flex items-center justify-center gap-5">
-                    <button type="button" className="btn-outline !px-4 !py-2" onClick={() => changeCompanions(companions - 1)}>
-                      −
-                    </button>
-                    <span className="w-8 text-center text-xl font-semibold text-nude">{companions}</span>
-                    <button type="button" className="btn-outline !px-4 !py-2" onClick={() => changeCompanions(companions + 1)}>
-                      +
-                    </button>
-                  </div>
+                  <Stepper value={companions} min={0} max={10} onChange={changeCompanions} />
                 </div>
                 {companionNames.map((n, i) => (
                   <input

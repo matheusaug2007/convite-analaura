@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CalendarPlus } from 'lucide-react';
+import CalendarWidget from './CalendarWidget';
 
 // 26/12/2026 às 19h00 (horário de Brasília, UTC-3)
 const EVENT_DATE = new Date('2026-12-26T19:00:00-03:00');
@@ -64,10 +64,23 @@ export default function CountdownSection() {
         ))}
       </div>
 
-      <div className="mt-6 flex justify-center">
-        <a href={CALENDAR_URL} target="_blank" rel="noreferrer" className="btn-outline !py-2.5 !text-xs">
-          <CalendarPlus size={16} /> Adicionar à agenda
-        </a>
+      <div className="mt-6">
+        <CalendarWidget
+          year={2026}
+          month={11}
+          initialSelectedDate="2026-12-26"
+          emptyText="A festa é no dia 26 🌸"
+          events={{
+            '2026-12-26': [
+              {
+                title: '15 Anos da Ana Laura',
+                time: 'Sábado, 19h00 • Crystal Eventos, Mandaguari - PR',
+                href: CALENDAR_URL,
+                hrefLabel: 'Adicionar à agenda',
+              },
+            ],
+          }}
+        />
       </div>
     </section>
   );

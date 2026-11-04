@@ -1,9 +1,9 @@
 import { MapPin, Navigation } from 'lucide-react';
+import ViewOnMap from './ViewOnMap';
 
 const QUERY = 'Crystal Eventos Mandaguari PR';
 const GOOGLE_MAPS = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(QUERY)}`;
 const WAZE = `https://waze.com/ul?q=${encodeURIComponent(QUERY)}&navigate=yes`;
-const EMBED = `https://www.google.com/maps?q=${encodeURIComponent(QUERY)}&output=embed`;
 
 export default function LocationSection() {
   return (
@@ -13,13 +13,11 @@ export default function LocationSection() {
         <MapPin className="mx-auto text-terracota" size={32} />
         <h3 className="mt-2 font-display text-2xl font-bold text-nude">Crystal Eventos</h3>
         <p className="text-sm font-light text-legenda">Mandaguari - PR</p>
-        <iframe
-          title="Mapa Crystal Eventos"
-          src={EMBED}
-          loading="lazy"
-          className="mt-4 h-52 w-full rounded-2xl border-0"
-        />
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <div className="mt-5">
+          <ViewOnMap query={QUERY} />
+        </div>
+        <p className="mt-5 text-[11px] font-light uppercase tracking-[0.2em] text-legenda">Como chegar</p>
+        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a href={GOOGLE_MAPS} target="_blank" rel="noreferrer" className="btn-primary">
             <MapPin size={18} /> Abrir no Google Maps
           </a>

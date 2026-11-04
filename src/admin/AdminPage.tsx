@@ -24,6 +24,7 @@ import {
 import { isSupabaseConfigured } from '../lib/supabase';
 import ThemeEditor from './ThemeEditor';
 import GiftsManager from './GiftsManager';
+import ContinuousTabs from './ContinuousTabs';
 
 const CARD = 'rounded-3xl border border-white/60 bg-white/85 shadow-sm shadow-stone-200/50 backdrop-blur-md';
 
@@ -235,22 +236,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
       {error && <p className={`${CARD} mt-3 p-3 text-center text-xs text-nude`}>{error}</p>}
 
       {/* Navegação por Abas 100% Responsiva no Celular */}
-      <nav className="mt-4 flex gap-1 rounded-full border border-white/70 bg-white/70 p-1 shadow-xs">
-        {TABS.map(({ id, label, fullLabel, icon: Icon }) => (
-          <button
-            key={id}
-            onClick={() => setTab(id)}
-            style={tab === id ? { backgroundColor: 'var(--button-color)' } : undefined}
-            className={`flex flex-1 items-center justify-center gap-1 rounded-full px-1.5 py-2 text-[11px] font-semibold transition sm:gap-1.5 sm:px-3 sm:text-xs ${
-              tab === id ? 'text-white shadow-xs' : 'text-legenda hover:bg-terracota/10'
-            }`}
-          >
-            <Icon size={14} className="shrink-0" />
-            <span className="sm:hidden">{label}</span>
-            <span className="hidden sm:inline">{fullLabel}</span>
-          </button>
-        ))}
-      </nav>
+      <ContinuousTabs tabs={TABS} value={tab} onChange={setTab} />
 
       {/* Conteúdo da Aba */}
       {tab === 'presentes' ? (

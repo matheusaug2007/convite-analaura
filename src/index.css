@@ -35,6 +35,16 @@ body {
   overflow-x: hidden;
 }
 
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
   .glass {
     @apply rounded-3xl border border-white/70 bg-white/85 shadow-[0_8px_32px_rgba(179,123,92,0.15)] backdrop-blur-md;
