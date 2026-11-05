@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Download,
+  ExternalLink,
   Gift,
   Loader2,
   Lock,
@@ -212,10 +213,22 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           </h1>
           <p className="text-[11px] font-light text-legenda sm:text-xs">Atualização em tempo real</p>
         </div>
-        <button onClick={onLogout} className="btn-outline shrink-0 !px-3 !py-1.5 !text-xs">
-          <LogOut size={13} />
-          <span className="hidden sm:inline">Sair</span>
-        </button>
+        <div className="flex shrink-0 items-center gap-1.5">
+          <a
+            href="/"
+            target="_blank"
+            rel="noreferrer"
+            title="Abrir o convite em uma nova aba"
+            className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-medium text-legenda transition hover:bg-white/70 hover:text-nude"
+          >
+            <ExternalLink size={13} />
+            <span className="hidden sm:inline">Ver convite</span>
+          </a>
+          <button onClick={onLogout} className="btn-outline !px-3 !py-1.5 !text-xs">
+            <LogOut size={13} />
+            <span className="hidden sm:inline">Sair</span>
+          </button>
+        </div>
       </header>
 
       {error && <p className={`${CARD} mt-3 p-3 text-center text-xs text-nude`}>{error}</p>}

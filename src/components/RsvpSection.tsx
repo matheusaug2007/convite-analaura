@@ -79,11 +79,11 @@ export default function RsvpSection() {
             <h3 className="mt-4 font-display text-2xl font-bold text-nude">
               {done === 'confirmed' ? 'Presença confirmada!' : 'Obrigada por avisar!'}
             </h3>
-            <p className="mt-2 text-sm font-light text-legenda">
-              {done === 'confirmed'
-                ? 'Mal posso esperar para celebrar com você! 🌸'
-                : 'Sentiremos sua falta, mas agradecemos o carinho. 💛'}
-            </p>
+            {done === 'declined' && (
+              <p className="mt-2 text-sm font-light text-legenda">
+                Sentiremos sua falta, mas agradecemos o carinho. 💛
+              </p>
+            )}
             {done === 'confirmed' && (
               <a href="#presentes" className="btn-outline mt-5 !text-xs">
                 <Gift size={14} /> Quer saber o que a Ana Laura gosta?
