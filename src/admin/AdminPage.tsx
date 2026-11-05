@@ -26,6 +26,7 @@ import { formatPhone } from '../lib/phone';
 import ThemeEditor from './ThemeEditor';
 import GiftsManager from './GiftsManager';
 import ContinuousTabs from './ContinuousTabs';
+import CompanionsButton from './CompanionsButton';
 
 const CARD = 'rounded-3xl border border-white/60 bg-white/85 shadow-sm shadow-stone-200/50 backdrop-blur-md';
 
@@ -150,52 +151,6 @@ function Phone({ phone }: { phone: string }) {
       <span className="whitespace-nowrap text-xs text-tinta">{formatPhone(phone)}</span>
       <WaButton phone={phone} />
     </span>
-  );
-}
-
-const COMPANION_LIMIT = 3;
-
-/** Resumo com a contagem e os nomes em lista vertical; acima de 3 nomes, recolhe com "+N mais". */
-function CompanionList({ r }: { r: RsvpRow }) {
-  const [open, setOpen] = useState(false);
-  const n = r.number_of_companions;
-  if (n === 0) return <span className="text-xs text-legenda">Vai sozinho(a)</span>;
-
-  const names = r.companion_names ?? [];
-  const shown = open ? names : names.slice(0, COMPANION_LIMIT);
-  const hidden = names.length - shown.length;
-  const unnamed = Math.max(0, n - names.length);
-
-  return (
-    <div className="min-w-0">
-      <span className="inline-flex rounded-full bg-[#ECE8F1] px-2.5 py-0.5 text-[11px] font-semibold text-[#6D6283]">
-        {n} {n === 1 ? 'acompanhante' : 'acompanhantes'}
-      </span>
-      {shown.length > 0 && (
-        <ul className="mt-1.5 space-y-0.5">
-          {shown.map((name, i) => (
-            <li key={i} className="flex items-start gap-1.5 text-[11px] leading-snug text-legenda">
-              <span className="mt-[5px] h-1 w-1 shrink-0 rounded-full bg-[#B7ABCB]" />
-              <span className="break-words">{name}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-      {names.length > COMPANION_LIMIT && (
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="mt-1 text-[11px] font-medium text-nude underline underline-offset-2"
-        >
-          {open ? 'Mostrar menos' : `+${hidden} mais`}
-        </button>
-      )}
-      {unnamed > 0 && (
-        <p className="mt-1 text-[10px] italic text-legenda/80">
-          {unnamed} sem nome informado
-        </p>
-      )}
-    </div>
   );
 }
 
@@ -334,7 +289,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                   </div>
                   {r.number_of_companions > 0 && (
                     <div className="mt-2 border-t border-stone-200/50 pt-2">
-                      <CompanionList r={r} />
+                      <CompanionsButton count={r.number_of_companions} names={r.companion_names} />
                     </div>
                   )}
                 </li>
@@ -363,8 +318,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                       <td className="px-4 py-3">
                         <StatusBadge status={r.status} />
                       </td>
-                      <td className="min-w-[13rem] px-4 py-3 align-top">
-                        <CompanionList r={r} />
+                      <td className="px-4 py-3">
+                        <CompanionsButton count={r.number_of_companions} names={r.companion_names} />
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-xs text-legenda">
                         {fmt(r.confirmed_at ?? r.created_at)}
