@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Check, Gift, Loader2 } from 'lucide-react';
 import { submitRsvp } from '../lib/supabase';
+import { PHONE_ERROR, formatPhone, isValidPhone } from '../lib/phone';
 import type { RsvpStatus } from '../types';
 import Stepper from './Stepper';
 
@@ -15,6 +16,7 @@ function fireConfetti() {
 export default function RsvpSection() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneTouched, setPhoneTouched] = useState(false);
   const [status, setStatus] = useState<RsvpStatus>('confirmed');
   const [companions, setCompanions] = useState(0);
   const [companionNames, setCompanionNames] = useState<string[]>([]);
@@ -28,9 +30,15 @@ export default function RsvpSection() {
     setCompanionNames((prev) => Array.from({ length: v }, (_, i) => prev[i] ?? ''));
   };
 
+  const phoneInvalid = phoneTouched && !isValidPhone(phone);
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    if (!isValidPhone(phone)) {
+      setPhoneTouched(true);
+      return;
+    }
     setLoading(true);
     const going = status === 'confirmed';
     try {
@@ -76,15 +84,22 @@ export default function RsvpSection() {
         ) : (
           <form onSubmit={onSubmit} className="space-y-4">
             <input className="input" required placeholder="Nome completo" value={name} onChange={(e) => setName(e.target.value)} />
-            <input
-              className="input"
-              required
-              type="tel"
-              inputMode="tel"
-              placeholder="Telefone / WhatsApp"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
+            <div>
+              <input
+                className={`input ${phoneInvalid ? '!border-rosa focus:!ring-rosa/30' : ''}`}
+                required
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                maxLength={15}
+                placeholder="(44) 99999-9999"
+                aria-invalid={phoneInvalid}
+                value={phone}
+                onChange={(e) => setPhone(formatPhone(e.target.value))}
+                onBlur={() => setPhoneTouched(true)}
+              />
+              {phoneInvalid && <p className="mt-1.5 px-2 text-xs text-[#B25E52]">{PHONE_ERROR}</p>}
+            </div>
             <div>
               <p className="mb-2 text-sm font-medium text-tinta">Vai comparecer?</p>
               <div className="grid grid-cols-2 gap-3">

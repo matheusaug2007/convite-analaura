@@ -1,4 +1,5 @@
 import { LS_MESSAGES, LS_RSVP, isSupabaseConfigured, supabase } from './supabase';
+import { formatPhone } from './phone';
 
 export interface RsvpRow {
   id: string;
@@ -115,7 +116,7 @@ export function exportRsvpCsv(rows: RsvpRow[]) {
   const lines = rows.map((r) =>
     [
       r.guest_name,
-      r.phone,
+      formatPhone(r.phone),
       r.status === 'confirmed' ? 'Confirmado' : 'Não comparece',
       r.number_of_companions,
       (r.companion_names ?? []).join('; '),

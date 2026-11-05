@@ -22,6 +22,7 @@ import {
   subscribeChanges,
 } from '../lib/adminApi';
 import { isSupabaseConfigured } from '../lib/supabase';
+import { formatPhone } from '../lib/phone';
 import ThemeEditor from './ThemeEditor';
 import GiftsManager from './GiftsManager';
 import ContinuousTabs from './ContinuousTabs';
@@ -146,31 +147,60 @@ function WaButton({ phone }: { phone: string }) {
 function Phone({ phone }: { phone: string }) {
   return (
     <span className="inline-flex items-center gap-1.5">
-      <span className="text-xs text-tinta">{phone}</span>
+      <span className="whitespace-nowrap text-xs text-tinta">{formatPhone(phone)}</span>
       <WaButton phone={phone} />
     </span>
   );
 }
 
-function CompanionBadges({ r }: { r: RsvpRow }) {
+const COMPANION_LIMIT = 3;
+
+/** Resumo com a contagem e os nomes em lista vertical; acima de 3 nomes, recolhe com "+N mais". */
+function CompanionList({ r }: { r: RsvpRow }) {
+  const [open, setOpen] = useState(false);
+  const n = r.number_of_companions;
+  if (n === 0) return <span className="text-xs text-legenda">Vai sozinho(a)</span>;
+
+  const names = r.companion_names ?? [];
+  const shown = open ? names : names.slice(0, COMPANION_LIMIT);
+  const hidden = names.length - shown.length;
+  const unnamed = Math.max(0, n - names.length);
+
   return (
-    <div className="flex flex-col gap-1">
-      <span className="text-xs font-medium text-tinta">{r.number_of_companions}</span>
-      {r.companion_names?.length ? (
-        <div className="flex flex-wrap gap-1">
-          {r.companion_names.map((n, i) => (
-            <span key={i} className="rounded-full bg-[#ECE8F1] px-2 py-0.5 text-[10px] text-[#6D6283]">
-              {n}
-            </span>
+    <div className="min-w-0">
+      <span className="inline-flex rounded-full bg-[#ECE8F1] px-2.5 py-0.5 text-[11px] font-semibold text-[#6D6283]">
+        {n} {n === 1 ? 'acompanhante' : 'acompanhantes'}
+      </span>
+      {shown.length > 0 && (
+        <ul className="mt-1.5 space-y-0.5">
+          {shown.map((name, i) => (
+            <li key={i} className="flex items-start gap-1.5 text-[11px] leading-snug text-legenda">
+              <span className="mt-[5px] h-1 w-1 shrink-0 rounded-full bg-[#B7ABCB]" />
+              <span className="break-words">{name}</span>
+            </li>
           ))}
-        </div>
-      ) : null}
+        </ul>
+      )}
+      {names.length > COMPANION_LIMIT && (
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className="mt-1 text-[11px] font-medium text-nude underline underline-offset-2"
+        >
+          {open ? 'Mostrar menos' : `+${hidden} mais`}
+        </button>
+      )}
+      {unnamed > 0 && (
+        <p className="mt-1 text-[10px] italic text-legenda/80">
+          {unnamed} sem nome informado
+        </p>
+      )}
     </div>
   );
 }
 
 const TABS = [
-  { id: 'dados', label: 'RSVP', fullLabel: 'Confirmações (RSVP)', icon: Users },
+  { id: 'dados', label: 'Confirmações', fullLabel: 'Confirmações', icon: Users },
   { id: 'presentes', label: 'Presentes', fullLabel: 'Presentes & PIX', icon: Gift },
   { id: 'cores', label: 'Cores', fullLabel: 'Personalização de Cores', icon: Palette },
 ] as const;
@@ -303,13 +333,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                     <span>{fmt(r.confirmed_at ?? r.created_at)}</span>
                   </div>
                   {r.number_of_companions > 0 && (
-                    <div className="mt-2 rounded-xl bg-white/70 p-2">
-                      <p className="text-[11px] font-medium text-tinta">
-                        Acompanhantes ({r.number_of_companions}):
-                      </p>
-                      {r.companion_names?.length ? (
-                        <p className="mt-0.5 text-[11px] text-legenda">{r.companion_names.join(', ')}</p>
-                      ) : null}
+                    <div className="mt-2 border-t border-stone-200/50 pt-2">
+                      <CompanionList r={r} />
                     </div>
                   )}
                 </li>
@@ -338,8 +363,8 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
                       <td className="px-4 py-3">
                         <StatusBadge status={r.status} />
                       </td>
-                      <td className="px-4 py-3">
-                        <CompanionBadges r={r} />
+                      <td className="min-w-[13rem] px-4 py-3 align-top">
+                        <CompanionList r={r} />
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-xs text-legenda">
                         {fmt(r.confirmed_at ?? r.created_at)}

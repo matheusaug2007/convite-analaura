@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Loader2, Save } from 'lucide-react';
 import { DEFAULT_PIX_CONFIG, PixConfig, fetchPixConfig, savePixConfig } from '../lib/giftsApi';
+import { PHONE_ERROR, formatPhone, isValidPhone } from '../lib/phone';
 
 const CARD = 'rounded-3xl border border-white/60 bg-white/80 shadow-sm shadow-stone-200/50 backdrop-blur-md';
 
@@ -8,18 +9,26 @@ const CARD = 'rounded-3xl border border-white/60 bg-white/80 shadow-sm shadow-st
 export default function GiftsManager() {
   const [pix, setPix] = useState<PixConfig>(DEFAULT_PIX_CONFIG);
   const [loading, setLoading] = useState(true);
+  const [whatsappTouched, setWhatsappTouched] = useState(false);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   useEffect(() => {
     fetchPixConfig().then((p) => {
-      setPix(p);
+      setPix({ ...p, whatsapp: formatPhone(p.whatsapp) });
       setLoading(false);
     });
   }, []);
 
+  // WhatsApp é opcional: só é inválido se estiver preenchido errado
+  const whatsappInvalid = whatsappTouched && pix.whatsapp !== '' && !isValidPhone(pix.whatsapp);
+
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
+    if (pix.whatsapp !== '' && !isValidPhone(pix.whatsapp)) {
+      setWhatsappTouched(true);
+      return;
+    }
     setSaving(true);
     setMsg(null);
     try {
@@ -85,11 +94,17 @@ export default function GiftsManager() {
               WhatsApp para recados (opcional)
             </label>
             <input
-              className="input !text-xs sm:!text-sm"
-              placeholder="Ex: 44999999999"
+              className={`input !text-xs sm:!text-sm ${whatsappInvalid ? '!border-rosa focus:!ring-rosa/30' : ''}`}
+              type="tel"
+              inputMode="numeric"
+              maxLength={15}
+              placeholder="(44) 99999-9999"
+              aria-invalid={whatsappInvalid}
               value={pix.whatsapp}
-              onChange={(e) => setPix({ ...pix, whatsapp: e.target.value })}
+              onChange={(e) => setPix({ ...pix, whatsapp: formatPhone(e.target.value) })}
+              onBlur={() => setWhatsappTouched(true)}
             />
+            {whatsappInvalid && <p className="mt-1 text-[11px] text-[#B25E52]">{PHONE_ERROR}</p>}
           </div>
         </div>
 
