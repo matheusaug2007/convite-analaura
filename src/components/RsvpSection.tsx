@@ -39,8 +39,17 @@ export default function RsvpSection() {
       setPhoneTouched(true);
       return;
     }
-    setLoading(true);
     const going = status === 'confirmed';
+    // Com acompanhantes, todos os nomes são obrigatórios (espaços em branco não valem)
+    if (going && companionNames.some((n) => n.trim().length < 2)) {
+      setError(
+        companions === 1
+          ? 'Informe o nome do seu acompanhante.'
+          : 'Informe o nome de todos os seus acompanhantes.',
+      );
+      return;
+    }
+    setLoading(true);
     try {
       await submitRsvp({
         guest_name: name.trim(),
@@ -129,6 +138,7 @@ export default function RsvpSection() {
                   <input
                     key={i}
                     className="input"
+                    required
                     placeholder={`Nome do acompanhante ${i + 1}`}
                     value={n}
                     onChange={(e) => setCompanionNames((prev) => prev.map((p, idx) => (idx === i ? e.target.value : p)))}
@@ -137,7 +147,7 @@ export default function RsvpSection() {
               </>
             )}
 
-            {error && <p className="text-center text-sm text-rosa">{error}</p>}
+            {error && <p className="text-center text-sm text-[#B25E52]">{error}</p>}
             <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? <Loader2 className="animate-spin" size={18} /> : 'Enviar resposta'}
             </button>

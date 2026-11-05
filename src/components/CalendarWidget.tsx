@@ -153,7 +153,7 @@ export default function CalendarWidget({
         </div>
       </div>
 
-      <div className="relative min-h-[9.5rem] overflow-hidden rounded-[28px] border border-white/80 bg-white px-4 py-3">
+      <div className="relative overflow-hidden rounded-[28px] border border-white/80 bg-white px-4 py-3">
         <AnimatePresence mode="popLayout" initial={false}>
           {dayEvents.length ? (
             <motion.div key={selected} className="divide-y divide-stone-200/70">
