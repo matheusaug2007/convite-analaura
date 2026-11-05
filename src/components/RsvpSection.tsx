@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import confetti from 'canvas-confetti';
 import { Check, Gift, Loader2 } from 'lucide-react';
-import { isSupabaseConfigured, submitRsvp } from '../lib/supabase';
+import { submitRsvp } from '../lib/supabase';
 import type { RsvpStatus } from '../types';
 import Stepper from './Stepper';
 
@@ -126,11 +126,6 @@ export default function RsvpSection() {
             <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? <Loader2 className="animate-spin" size={18} /> : 'Enviar resposta'}
             </button>
-            {!isSupabaseConfigured && (
-              <p className="text-center text-[11px] font-light text-legenda">
-                Modo demonstração: Supabase não configurado, dados salvos apenas neste navegador.
-              </p>
-            )}
           </form>
         )}
       </div>

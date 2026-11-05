@@ -8,8 +8,8 @@ import { CalendarDays, CalendarPlus } from 'lucide-react';
  * com os detalhes logo abaixo.
  */
 export interface CalendarEvent {
-  title: string;
-  time: string;
+  title?: string;
+  time?: string;
   href?: string;
   hrefLabel?: string;
 }
@@ -157,23 +157,23 @@ export default function CalendarWidget({
         <AnimatePresence mode="popLayout" initial={false}>
           {dayEvents.length ? (
             <motion.div key={selected} className="divide-y divide-stone-200/70">
-              {dayEvents.map((event) => (
+              {dayEvents.map((event, i) => (
                 <motion.div
-                  key={event.title}
+                  key={event.title ?? i}
                   initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                   className="flex flex-col gap-0.5 py-2"
                 >
-                  <span className="text-base font-semibold text-nude">{event.title}</span>
-                  <span className="text-sm text-legenda">{event.time}</span>
+                  {event.title && <span className="text-base font-semibold text-nude">{event.title}</span>}
+                  {event.time && <span className="text-sm text-legenda">{event.time}</span>}
                   {event.href && (
                     <a
                       href={event.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="btn-primary mt-3 w-full !py-2.5 !text-xs"
+                      className={`btn-primary w-full !py-2.5 !text-xs ${event.title || event.time ? 'mt-3' : ''}`}
                     >
                       <CalendarPlus size={15} /> {event.hrefLabel ?? 'Adicionar à agenda'}
                     </a>

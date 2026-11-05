@@ -72,12 +72,7 @@ export default function CountdownSection() {
           emptyText="A festa é no dia 26 🌸"
           events={{
             '2026-12-26': [
-              {
-                title: '15 Anos da Ana Laura',
-                time: 'Sábado, 19h00 • Crystal Eventos, Mandaguari - PR',
-                href: CALENDAR_URL,
-                hrefLabel: 'Adicionar à agenda',
-              },
+              { href: CALENDAR_URL, hrefLabel: 'Adicionar à agenda' },
             ],
           }}
         />

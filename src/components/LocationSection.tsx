@@ -19,10 +19,10 @@ export default function LocationSection() {
         <p className="mt-5 text-[11px] font-light uppercase tracking-[0.2em] text-legenda">Como chegar</p>
         <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <a href={GOOGLE_MAPS} target="_blank" rel="noreferrer" className="btn-primary">
-            <MapPin size={18} /> Abrir no Google Maps
+            <MapPin size={18} /> Google Maps
           </a>
           <a href={WAZE} target="_blank" rel="noreferrer" className="btn-outline">
-            <Navigation size={18} /> Abrir no Waze
+            <Navigation size={18} /> Waze
           </a>
         </div>
       </div>
