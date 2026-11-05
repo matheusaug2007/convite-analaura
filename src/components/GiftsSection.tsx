@@ -7,10 +7,10 @@ import InlineToast from './InlineToast';
 const SIZES = [
   { icon: Shirt, label: 'Roupas', value: 'P ou PP' },
   { icon: Footprints, label: 'Calçados', value: '37' },
-  { icon: Gem, label: 'Acessórios', value: 'Dourado' },
+  { icon: Gem, label: 'Acessórios', value: 'Dourado e Prata' },
 ];
 
-const LIKES = ['Cremes', 'Perfumes', 'Vestidos', 'Blusinhas', 'Pulseiras', 'Anéis', 'Berloques'];
+const LIKES = ['Cremes', 'Perfumes', 'Vestidos', 'Blusinhas', 'Berloques'];
 
 /** Filete com um pequeno losango no centro, separador de seções. */
 function Ornament() {
